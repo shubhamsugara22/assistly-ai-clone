@@ -1,6 +1,10 @@
-import React, { Children } from 'react'
+import React from 'react'
 
-function AdminLayout() {
+function AdminLayout({
+	children,
+  }: Readonly<{
+	children: React.ReactNode;
+  }>) {
   return (
 	<div>
 		{/* Header */}
