@@ -1,4 +1,5 @@
 import React from 'react'
+import Header from '@/components/Header'
 
 function AdminLayout({
 	children,
@@ -8,6 +9,7 @@ function AdminLayout({
   return (
 	<div>
 		{/* Header */}
+		<Header />
 		<div>
 			{/* SideBar */}
 			<div>
