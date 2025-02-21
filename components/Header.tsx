@@ -13,15 +13,14 @@ function Header() {
 		    <h2 className='text-sm'>Your Customisable AI Chat Agent</h2>
 		</div>
 		    </Link>
-		<div className=''>
-			<SignedIn>
-				<UserButton  showName/>
-			</SignedIn>
-			<SignedOut>
-				<SignInButton />
-			</SignedOut>
-		</div>
-	  
+		    <div className="flex items-end ">
+			    <SignedIn>
+				    <UserButton  showName/>
+			    </SignedIn>
+			    <SignedOut>
+				    <SignInButton />
+			    </SignedOut>
+		    </div>
 	</header>
   )
 }
