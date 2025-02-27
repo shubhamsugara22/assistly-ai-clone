@@ -1,4 +1,6 @@
 import Avatar from "@/components/Avatar";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 function CreateChatbot() {
   return (
@@ -10,6 +12,13 @@ function CreateChatbot() {
 			Create a new chatbot to assist you in your conversation with
 			your customers.
 		</h2>
+		<form className="flex flex-col md:flex-row gap-2 mt-5">
+		  	<Input placeholder="Chatbot Name ..."
+			className="max-w-lg" 
+			required
+			/>
+			<Button>Create Chatbot</Button>
+		</form>
 	 </div>
 	</div>
   )
