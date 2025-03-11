@@ -2,7 +2,7 @@ import {
 	ApolloClient,
 	DefaultOptions,
 	InMemoryCache,
-	createHttpLink,
+	HttpLink,
 } from "@apollo/client";
 
 import { headers } from "next/headers";
