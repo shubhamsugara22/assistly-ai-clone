@@ -5,7 +5,6 @@ import {
 	HttpLink,
 } from "@apollo/client";
 
-import { headers } from "next/headers";
 
 
 const defaultOptions: DefaultOptions ={

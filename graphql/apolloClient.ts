@@ -12,7 +12,6 @@ export const BASE_URL =
 
 const httpLink = createHttpLink({
 	uri: `${BASE_URL}/api/graphql`,
-
 });
 
 const defaultOptions: DefaultOptions ={
