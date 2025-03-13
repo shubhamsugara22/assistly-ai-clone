@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Avatar from "@/components/Avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ function CreateChatbot() {
 		variables: {
 			clerk_user_id: user?.id,
 			name: name,
+			created_at: new Date().toISOString()
 		    },
 	    }
     );
@@ -28,6 +29,7 @@ function CreateChatbot() {
 	e.preventDefault();
 
 	try {
+		console.log("123")
 		const data = await createChatbot();
 		setName("");
 
@@ -64,7 +66,7 @@ function CreateChatbot() {
 			{loading ? "Creating Chatbot..." : "Create Chatbot"}
 			</Button>
 		</form>
-		<p className="tezt=gray=300 mt-5">Example: Customer Support Chatbot</p>
+		<p className="text-gray-300 mt-5">Example: Customer Support Chatbot</p>
 	 </div>
 	</div>
   )
