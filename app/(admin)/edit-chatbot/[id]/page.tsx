@@ -40,6 +40,15 @@ function EditChatbot( { id } :  { id: string } ) {
 			</Button>
 		</div>
 	</div>
+	<section className="relative mt-5 bg-white p-5 md:p-10 rounded-lg">
+		<Button
+		 variant="destructive" 
+		 className="absolute top-2 right-2 h-8 w-2"
+		 // onClick={ () => handleDelete(id)}
+		>X</Button>
+
+		<div></div>
+	</section>
 </div>
   )
 }
