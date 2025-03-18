@@ -5,7 +5,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect , useState } from "react";
 import { BASE_URL } from "@/graphql/apolloClient";
-import { Copy, Variable } from "lucide-react";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
+
 function EditChatbot( { id } :  { id: string } ) {
 	const [url ,setUrl] = useState<string>("");
 
@@ -23,7 +25,7 @@ function EditChatbot( { id } :  { id: string } ) {
 				Share this link with your customers to start conversations with your chatbot</p>
 		<div className="flex flex-center space-x-2">
             <Link href={url} className="w-full cursor-pointer hover:opacity-50">
-			<Input value={url} readOnly className="cursor-pointer"/>
+			<Input value={url} readOnly className="cursor-pointer" />
 			</Link>
 			<Button
 			  size="sm"
@@ -34,7 +36,7 @@ function EditChatbot( { id } :  { id: string } ) {
 			  }}
 			>
 				<span className="sr-only">Copy</span>
-				<Copy classname="h-4 w-4" />
+				<Copy className="h-4 w-4" />
 			</Button>
 		</div>
 	</div>
