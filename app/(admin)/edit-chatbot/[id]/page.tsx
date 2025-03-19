@@ -10,6 +10,7 @@ import { toast } from "sonner";
 
 function EditChatbot( { id } :  { id: string } ) {
 	const [url ,setUrl] = useState<string>("");
+	const [chatbotname, setChatbotName] = useState<string>("");
 
 	useEffect(() => {
 
@@ -47,7 +48,9 @@ function EditChatbot( { id } :  { id: string } ) {
 		 // onClick={ () => handleDelete(id)}
 		>X</Button>
 
-		<div></div>
+		<div>
+			<Avatar seed={chatbotname}/>
+		</div>
 	</section>
 </div>
   )
