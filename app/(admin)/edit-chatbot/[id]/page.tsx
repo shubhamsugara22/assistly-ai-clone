@@ -8,14 +8,27 @@ import { BASE_URL } from "@/graphql/apolloClient";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
 import Avatar from "@/components/Avatar";
+import { useMutation , useQuery} from "@apollo/client";
+import { GET_CHATBOT_BY_ID } from "@/graphql/queries/queries";
+import { GetChatbotByIdResponse, GetChatbotByIdVariables } from "@/types/types";
 
 
 function EditChatbot( { id } :  { id: string } ) {
 	const [url ,setUrl] = useState<string>("");
 	const [chatbotname, setChatbotName] = useState<string>("");
 
+	const {data, loading, error } = 
+	useQuery<GetChatbotByIdResponse, GetChatbotByIdVariables>(
+		GET_CHATBOT_BY_ID,
+		{ variables: { id } }
+	);
 	useEffect(() => {
+		if (data) {
+			setChatbotName(data.chatbots.name);
+		}
+	}, [data]);
 
+	useEffect(() => {
 		const url = `${BASE_URL}/chatbot/${id}`;
 
 		setUrl(url);

@@ -36,3 +36,6 @@ export interface Chatbot {
   export interface GetChatbotByIdResponse {
     chatbots: Chatbot;
   }
+  export interface GetChatbotByIdVariables {
+    id: string;
+  }
