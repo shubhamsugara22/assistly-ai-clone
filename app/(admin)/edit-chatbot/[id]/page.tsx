@@ -7,6 +7,8 @@ import { useEffect , useState } from "react";
 import { BASE_URL } from "@/graphql/apolloClient";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
+import Avatar from "@/components/Avatar";
+
 
 function EditChatbot( { id } :  { id: string } ) {
 	const [url ,setUrl] = useState<string>("");
