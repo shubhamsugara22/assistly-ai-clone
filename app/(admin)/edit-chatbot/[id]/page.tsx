@@ -15,7 +15,7 @@ import { GetChatbotByIdResponse, GetChatbotByIdVariables } from "@/types/types";
 
 function EditChatbot( { id } :  { id: string } ) {
 	const [url ,setUrl] = useState<string>("");
-	const [chatbotname, setChatbotName] = useState<string>("");
+	const [chatbotName, setChatbotName] = useState<string>("");
 
 	const {data, loading, error } = 
 	useQuery<GetChatbotByIdResponse, GetChatbotByIdVariables>(
@@ -63,9 +63,23 @@ function EditChatbot( { id } :  { id: string } ) {
 		 // onClick={ () => handleDelete(id)}
 		>X</Button>
 
-		<div>
-			<Avatar seed={chatbotname}/>
-		</div>
+		<div className="flex space-x-4">
+			<Avatar seed={chatbotName}/>
+			<form 
+			      //onSubmit={handleUpdateChatbot}
+			      className="flex flex-l space-x-2 items-center"
+			>
+				<Input 
+				value={chatbotName}
+				onChange={(e) => setChatbotName(e.target.value)}
+				placeholder={chatbotName}
+				className="max-w-lg" 
+				required
+				/>
+				<Button type="submit" disabled={!chatbotName}>
+					Update</Button>
+			</form>
+		</div> 
 	</section>
 </div>
   )
