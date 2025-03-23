@@ -11,6 +11,7 @@ import Avatar from "@/components/Avatar";
 import { useMutation , useQuery} from "@apollo/client";
 import { GET_CHATBOT_BY_ID } from "@/graphql/queries/queries";
 import { GetChatbotByIdResponse, GetChatbotByIdVariables } from "@/types/types";
+import Characteristic from "@/components/Characteristic";
 
 
 function EditChatbot( { id } :  { id: string } ) {
@@ -103,10 +104,12 @@ function EditChatbot( { id } :  { id: string } ) {
 					Add
 				</Button>
 			</form>
-			<ul>
-				{data?.chatbots.chatbot_characteristics.map((characteristic)
-			 => (
-				<div>{characteristic.content}</div>
+			<ul className="flex flex-wrap-reverse gap-5">
+				{data?.chatbots.chatbot_characteristics.map((characteristic) => (
+				<Characteristic
+				 key={characteristic.id}
+				 characteristic={characteristic}
+				 />
 			 ))}
 			</ul>
 		</div>	
