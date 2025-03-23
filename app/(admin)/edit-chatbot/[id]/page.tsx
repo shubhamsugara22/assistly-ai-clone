@@ -103,6 +103,12 @@ function EditChatbot( { id } :  { id: string } ) {
 					Add
 				</Button>
 			</form>
+			<ul>
+				{data?.chatbots.chatbot_characteristics.map((characteristic)
+			 => (
+				<div>{characteristic.content}</div>
+			 ))}
+			</ul>
 		</div>	
 	</section>
 </div>
