@@ -14,9 +14,9 @@ import { GetChatbotByIdResponse, GetChatbotByIdVariables } from "@/types/types";
 import Characteristic from "@/components/Characteristic";
 
 
-function EditChatbot( { id } :  { id: string } ) {
+function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 	const [url ,setUrl] = useState<string>("");
-	const [newCharacteristic, SetNewCharacteristic] = useState<string>("");
+	const [newCharacteristic, setNewCharacteristic] = useState<string>("");
 	const [chatbotName, setChatbotName] = useState<string>("");
 
 	const {data, loading, error } = 
@@ -90,13 +90,13 @@ function EditChatbot( { id } :  { id: string } ) {
 			Your chatbot is equiped with the following information to assist you
 			in your conversations with your customers & users
 		</p>
-		<div>
+		<div className="bg-gray-200 p-5 mb:p-5 rounded-md mt-5">
 			<form>
 				<Input
 				 type="text"
-				 placeholder="Example: if you are customer sk for prices, provde pricing pages"
+				 placeholder="Example: if you are customer ask for prices, provide pricing pages"
 				 value={newCharacteristic}
-				 onChange={(e) => SetNewCharacteristic(e.target.value)}
+				 onChange={(e) => setNewCharacteristic(e.target.value)}
 				 />
 				<Button
 				 type="submit"
@@ -105,7 +105,7 @@ function EditChatbot( { id } :  { id: string } ) {
 				</Button>
 			</form>
 			<ul className="flex flex-wrap-reverse gap-5">
-				{data?.chatbots.chatbot_characteristics.map((characteristic) => (
+				{data?.chatbots?.chatbot_characteristics.map((characteristic) => (
 				<Characteristic
 				 key={characteristic.id}
 				 characteristic={characteristic}
