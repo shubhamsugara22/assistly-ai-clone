@@ -21,6 +21,7 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 	const [chatbotName, setChatbotName] = useState<string>("");
 	const [deleteChatbot] = useMutation(DELETE_CHATBOT,{
 		refetchQueries: ["GetChatbotById"],
+		// Refetch the chatbots after deleting
 		awaitRefetchQueries: true,
 	});
 	const {data, loading, error } = 
@@ -39,6 +40,26 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 
 		setUrl(url);
 	}, [id]);
+
+	const handleDelete = async (id: string) => {
+		const isConfirmed = window.confirm(
+			"Are you sure you want to delete this chatbot?"
+		);
+		if(!isConfirmed) return;
+
+		try {
+			const promise = deleteChatbot({ variables: { id }});
+			toast.promise(promise, {
+				loading: "Deleting....",
+				success: "Chatbot Successfully deleted",
+				error: "Failed to delete chatbot",
+			});
+		} catch (error) {
+			console.error("Error deleting chatbot:", error);
+			toast.error("Failed to delete chatbot");
+		}
+	};
+
   return (
 	<div className="px-0 md:p-10">
 		<div className="md:sticky md:top-0 z-50 sm:max-w-sm ml-auto space-y-2 md:border p-5 rounded-b-lg md:rounded-lg bg-[#2991EE]">
@@ -66,8 +87,10 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 		<Button
 		 variant="destructive" 
 		 className="absolute top-2 right-2 h-8 w-2"
-		 // onClick={ () => handleDelete(id)}
-		>X</Button>
+		 onClick={ () => handleDelete(id)}
+		>
+			X
+		</Button>
 
 		<div className="flex space-x-4">
 			<Avatar seed={chatbotName}/>
