@@ -25,6 +25,10 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 		// Refetch the chatbots after deleting
 		awaitRefetchQueries: true,
 	});
+	const [addCharacteristic] = useMutation(ADD_CHARACTERISTIC, {
+		refetchQueries: ["GetChatbotById"],
+	});
+	
 	const {data, loading, error } = 
 	useQuery<GetChatbotByIdResponse, GetChatbotByIdVariables>(
 		GET_CHATBOT_BY_ID,
@@ -41,6 +45,25 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 
 		setUrl(url);
 	}, [id]);
+
+	const handleAddCharacteristic = async (content: string) => {
+		try {
+			const promise = addCharacteristic({ 
+				variables: { 
+					chatbotId: Number(id), 
+				    content,
+				}
+			});
+			toast.promise(promise, {
+				loading: "Adding....",
+				success: "Information Added",
+				error: "Failed to add information",
+			});
+		} catch (err) {
+			console.error("Failed to add characteristics", err);
+		}
+
+	}
 
 	const handleDelete = async (id: string) => {
 		const isConfirmed = window.confirm(
@@ -131,7 +154,11 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 			in your conversations with your customers & users
 		</p>
 		<div className="bg-gray-200 p-5 mb:p-5 rounded-md mt-5">
-			<form>
+			<form onSubmit={e => {
+				e.preventDefault();
+				handleAddCharacteristic(newCharacteristic);
+				setNewCharacteristic("");
+			}}>
 				<Input
 				 type="text"
 				 placeholder="Example: if you are customer ask for prices, provide pricing pages"
