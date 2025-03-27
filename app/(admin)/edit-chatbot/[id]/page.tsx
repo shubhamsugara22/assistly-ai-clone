@@ -13,6 +13,7 @@ import { GET_CHATBOT_BY_ID } from "@/graphql/queries/queries";
 import { GetChatbotByIdResponse, GetChatbotByIdVariables } from "@/types/types";
 import Characteristic from "@/components/Characteristic";
 import { DELETE_CHATBOT } from "@/graphql/mutations/mutations";
+import { redirect } from "next/navigation";
 
 
 function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
@@ -59,6 +60,18 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 			toast.error("Failed to delete chatbot");
 		}
 	};
+
+	if (loading) 
+		return (
+	     <div className="mx-auto animate-spin p-10">
+			<Avatar seed="PAPAFAM Support Agent" />
+		 </div>
+	
+		);
+
+		if (error) return <p>Error: {error.message}</p>
+
+		if(!data?.chatbots) return redirect("/view-chatbots");
 
   return (
 	<div className="px-0 md:p-10">
@@ -132,7 +145,7 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 				</Button>
 			</form>
 			<ul className="flex flex-wrap-reverse gap-5">
-				{data?.chatbots?.chatbot_characteristics.map((characteristic) => (
+				{data?.chatbots?.chatbot_characteristics?.map((characteristic) => (
 				<Characteristic
 				 key={characteristic.id}
 				 characteristic={characteristic}
