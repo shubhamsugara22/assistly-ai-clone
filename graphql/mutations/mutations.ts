@@ -36,11 +36,19 @@ export const DELETE_CHATBOT = gql`
 `;
 
 export const ADD_CHARACTERISTIC = gql`
- mutation AddCharacteristic($chatbotId: Int!, $content: String!) {
-        insertChatbot_characteristics( chatbot_id: $chatbotId , content: $content) {
-        id
-        content
-        created_at
-   }
- }
+  mutation AddCharacteristic(
+    $chatbotId: Int!
+    $content: String!
+    $created_at: DateTime!
+  ) {
+    insertChatbot_characteristics(
+      chatbot_id: $chatbotId
+      content: $content
+      created_at: $created_at
+    ) {
+      id
+      content
+      created_at
+    }
+}
 `;

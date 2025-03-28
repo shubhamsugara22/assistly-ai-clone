@@ -12,7 +12,7 @@ import { useMutation, useQuery} from "@apollo/client";
 import { GET_CHATBOT_BY_ID } from "@/graphql/queries/queries";
 import { GetChatbotByIdResponse, GetChatbotByIdVariables } from "@/types/types";
 import Characteristic from "@/components/Characteristic";
-import { DELETE_CHATBOT } from "@/graphql/mutations/mutations";
+import { DELETE_CHATBOT , ADD_CHARACTERISTIC } from "@/graphql/mutations/mutations";
 import { redirect } from "next/navigation";
 
 
@@ -52,6 +52,7 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 				variables: { 
 					chatbotId: Number(id), 
 				    content,
+					created_at: new Date().toISOString(),
 				}
 			});
 			toast.promise(promise, {
@@ -62,8 +63,7 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 		} catch (err) {
 			console.error("Failed to add characteristics", err);
 		}
-
-	}
+	};
 
 	const handleDelete = async (id: string) => {
 		const isConfirmed = window.confirm(
