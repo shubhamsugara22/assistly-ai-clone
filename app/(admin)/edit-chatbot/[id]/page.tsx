@@ -158,7 +158,9 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 				e.preventDefault();
 				handleAddCharacteristic(newCharacteristic);
 				setNewCharacteristic("");
-			}}>
+			}}
+			   className="flex space-x-2 mb-5"
+			>
 				<Input
 				 type="text"
 				 placeholder="Example: if you are customer ask for prices, provide pricing pages"
