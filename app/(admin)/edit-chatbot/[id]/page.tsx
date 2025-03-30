@@ -12,7 +12,7 @@ import { useMutation, useQuery} from "@apollo/client";
 import { GET_CHATBOT_BY_ID } from "@/graphql/queries/queries";
 import { GetChatbotByIdResponse, GetChatbotByIdVariables } from "@/types/types";
 import Characteristic from "@/components/Characteristic";
-import { DELETE_CHATBOT , ADD_CHARACTERISTIC } from "@/graphql/mutations/mutations";
+import {  UPDATE_CHATBOT , DELETE_CHATBOT , ADD_CHARACTERISTIC } from "@/graphql/mutations/mutations";
 import { redirect } from "next/navigation";
 
 
@@ -20,12 +20,16 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 	const [url ,setUrl] = useState<string>("");
 	const [newCharacteristic, setNewCharacteristic] = useState<string>("");
 	const [chatbotName, setChatbotName] = useState<string>("");
+	//Mutations
 	const [deleteChatbot] = useMutation(DELETE_CHATBOT,{
 		refetchQueries: ["GetChatbotById"],
 		// Refetch the chatbots after deleting
 		awaitRefetchQueries: true,
 	});
 	const [addCharacteristic] = useMutation(ADD_CHARACTERISTIC, {
+		refetchQueries: ["GetChatbotById"],
+	});
+	const [updateChatbot] = useMutation(UPDATE_CHATBOT, {
 		refetchQueries: ["GetChatbotById"],
 	});
 	
@@ -64,7 +68,27 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 			console.error("Failed to add characteristics", err);
 		}
 	};
+    
+	const handleUpdateChatbot = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 
+		try {
+			const promise = updateChatbot({
+				variables: {
+					id,
+					name: chatbotName,
+				},
+			});
+
+			toast.promise(promise, {
+				loading: "Updating..",
+				success: "Chatbot name successfully updated",
+				error: "failed to update chatbot",
+			});
+		} catch (err) {
+			console.log("Failed to updae Chatbot:", err);
+		}
+	};
 	const handleDelete = async (id: string) => {
 		const isConfirmed = window.confirm(
 			"Are you sure you want to delete this chatbot?"
@@ -131,7 +155,8 @@ function EditChatbot( { params :{ id } } : {params: { id: string } } ) {
 		<div className="flex space-x-4">
 			<Avatar seed={chatbotName}/>
 			<form 
-			      //onSubmit={handleUpdateChatbot}
+			      
+				  onSubmit={handleUpdateChatbot}
 			      className="flex flex-l space-x-2 items-center"
 			>
 				<Input 
