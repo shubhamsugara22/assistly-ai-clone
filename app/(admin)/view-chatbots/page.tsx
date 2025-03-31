@@ -12,10 +12,20 @@ import {
  from "@/types/types";
 import { auth } from "@clerk/nextjs/server";
 import  Link  from "next/link";
- 
+
 export const dynamic = "force-dynamic";
 
-function ViewChatbots() {
+async function ViewChatbots() {
+	const {userId} = await auth();
+	if (!userId) return;
+
+	// get the chatbots for user
+
+	const {data} = await serverClient.query<>({
+		query: GET_CHATBOT_BY_USER
+		variables: {},
+	});
+	
   return (
 	<div>
 	  
