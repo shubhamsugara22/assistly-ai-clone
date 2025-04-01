@@ -6,7 +6,7 @@ import { serverClient  } from "@/lib/server/serverClient";
 
 import {
 	Chatbot,
-	GetChatbotdByUserData,
+	GetChatbotsByUserData,
 	GetChatbotsByUserDataVariables
 }
  from "@/types/types";
@@ -21,7 +21,10 @@ async function ViewChatbots() {
 
 	// get the chatbots for user
 
-	const {data} = await serverClient.query<>({
+	const {data} = await serverClient.query<
+	GetChatbotsByUserData,
+	GetChatbotsByUserDataVariables
+	>({
 		query: GET_CHATBOT_BY_USER
 		variables: {},
 	});
