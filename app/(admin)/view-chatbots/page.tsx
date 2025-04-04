@@ -1,7 +1,7 @@
 import Avatar from "@/components/Avatar";
 import { Button } from "@/components/ui/button";
 
-import { GET_CHATBOT_BY_USER } from "@/graphql/queries/queries";
+import { GET_CHATBOTS_BY_USER } from "@/graphql/queries/queries";
 import { serverClient  } from "@/lib/server/serverClient";
 
 import {
@@ -21,29 +21,29 @@ async function ViewChatbots() {
 
 	// get the chatbots for user
 
-	const {
-		data: { chatbotsByUser },
-	} = await serverClient.query<
+	const { data: 
+		{ chatbotsByUser },} 
+		= await serverClient.query<
 	GetChatbotByUserData,
 	GetChatbotByUserDataVariables
 	>({
-		query: GET_CHATBOT_BY_USER,
+		query: GET_CHATBOTS_BY_USER,
 		variables : {
 			clerk_user_id: userId,
 		},
 	});
-    const sortedChatbotsByUser: Chatbot[] = [...chatbotsByUser].sort(
+    const sortedChatbotByUser: Chatbot[] = [...chatbotsByUser].sort(
 		(a, b) =>
 			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
 	);	
-	console.log(sortedChatbotsByUser);
+	console.log(sortedChatbotByUser);
   return (
 	<div className="flex-1 pb-20 p-10">
 		<h1 className="text-xl lg:text-3xl font-semibold mb-5">
 			Active Chatbots
 		</h1>
 
-		{sortedChatbotsByUser.length === 0 && (
+		{sortedChatbotByUser.length === 0 && (
 			<div>
 				<p>
 					You have not created any chatbots yet, Click on button
@@ -57,12 +57,30 @@ async function ViewChatbots() {
 				</Link>
 			</div>
 		)}
-		<ul>
-			{sortedChatbotsByUser.map((chatbot) => (
+		<ul className="flex flex-col space-y-5">
+			{sortedChatbotByUser.map((chatbot) => (
 				<Link key={chatbot.id} href={`/edit-chatbots/${chatbot.id}`}>
-					<li>
+					<li className="relative p-10 border rounded-md max-w-3xl bg-white" >
 						<div>
-							
+						<div className="flex items-center space-x-4">
+							<Avatar seed={chatbot.name} />
+							<h2 className="text-xl font-bold">{chatbot.name}</h2>
+						</div>
+						<p className="absolute top-5 right-5 text-xs text-gray-400">
+							Created : {new Date(chatbot.created_at).toLocaleString()}
+						</p>
+						</div>
+
+						<hr className="mt-2"/>
+						
+						<div>
+							<h3 className="italic">Characteristics</h3>
+						<ul>
+							{!chatbot.chatbot_characteristics.length && (
+								<p>No characteristic added yet.</p>
+							)}
+						</ul>
+						
 						</div>
 					</li>
 				</Link>
