@@ -8,7 +8,7 @@ export interface Chatbot {
   }
   export interface ChatbotCharacteristics {
     id: number;
-    chatbot_id: string;
+    chatbot_id: number;
     content: string;
     created_at: string;
   }
@@ -45,3 +45,5 @@ export interface Chatbot {
   export interface GetChatbotByUserDataVariables {
     clerk_user_id: string;
   }
+  
+  

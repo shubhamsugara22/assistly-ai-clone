@@ -49,3 +49,19 @@ export const GET_CHATBOT_BY_ID = gql`
       }
    }
 `;
+export const GET_USER_CHATBOTS = gql`
+  query GetUserChatbots($userId: String!) {
+    chatbotsByUser(clerk_user_id: $userId) {
+      id
+      name
+      chat_sessions {
+        id
+        created_at
+        guests {
+          name
+          email
+        }
+      }
+    }
+  }
+`;

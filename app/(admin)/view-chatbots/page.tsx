@@ -20,10 +20,8 @@ async function ViewChatbots() {
 	if (!userId) return;
 
 	// get the chatbots for user
-
-	const { data: 
-		{ chatbotsByUser },} 
-		= await serverClient.query<
+	const { data } 	= 
+	await serverClient.query<
 	GetChatbotByUserData,
 	GetChatbotByUserDataVariables
 	>({
@@ -32,10 +30,12 @@ async function ViewChatbots() {
 			clerk_user_id: userId,
 		},
 	});
-    const sortedChatbotByUser: Chatbot[] = [...chatbotsByUser].sort(
+	const chatbotsByUser = data?.chatbotsByUser || [];
+    const sortedChatbotByUser: Chatbot[] = chatbotsByUser.length ? [...chatbotsByUser].sort(
 		(a, b) =>
 			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-	);	
+	)
+	:[];
 	console.log(sortedChatbotByUser);
   return (
 	<div className="flex-1 pb-20 p-10">
@@ -52,22 +52,22 @@ async function ViewChatbots() {
 				<Link href="/create-chatbot">
 				    <Button className="bg-[#64b5F5] text-white p-3 rounded-md
 					mt-5">
-					    Create Chatbot
+					    Create Chatbots
 					</Button>
 				</Link>
 			</div>
 		)}
 		<ul className="flex flex-col space-y-5">
-			{sortedChatbotByUser.map((chatbot) => (
-				<Link key={chatbot.id} href={`/edit-chatbots/${chatbot.id}`}>
+			{sortedChatbotByUser.map((chatbots) => (
+				<Link key={chatbots.id} href={`/edit-chatbots/${chatbots.id}`}>
 					<li className="relative p-10 border rounded-md max-w-3xl bg-white" >
 						<div>
 						<div className="flex items-center space-x-4">
-							<Avatar seed={chatbot.name} />
-							<h2 className="text-xl font-bold">{chatbot.name}</h2>
+							<Avatar seed={chatbots.name} />
+							<h2 className="text-xl font-bold">{chatbots.name}</h2>
 						</div>
 						<p className="absolute top-5 right-5 text-xs text-gray-400">
-							Created : {new Date(chatbot.created_at).toLocaleString()}
+							Created : {new Date(chatbots.created_at).toLocaleString()}
 						</p>
 						</div>
 
@@ -76,7 +76,7 @@ async function ViewChatbots() {
 						<div>
 							<h3 className="italic">Characteristics</h3>
 						<ul>
-							{!chatbot.chatbot_characteristics.length && (
+							{!chatbots.chatbot_characteristics.length && (
 								<p>No characteristic added yet.</p>
 							)}
 						</ul>
