@@ -30,6 +30,7 @@ async function ViewChatbots() {
 			clerk_user_id: userId,
 		},
 	});
+	console.log("GraphQL Response:", data);
 	const chatbotsByUser = data?.chatbotsByUser || [];
     const sortedChatbotByUser: Chatbot[] = chatbotsByUser.length ? [...chatbotsByUser].sort(
 		(a, b) =>
@@ -79,6 +80,15 @@ async function ViewChatbots() {
 							{!chatbots.chatbot_characteristics.length && (
 								<p>No characteristic added yet.</p>
 							)}
+							
+							{chatbot.chatbot_characteristics.map((characteristic) => (
+							<li 
+							 className="list-disc break-words"
+							 key={characteristic.id}
+							 >
+								{characteristic.content}
+							</li>
+							))}
 						</ul>
 						
 						</div>

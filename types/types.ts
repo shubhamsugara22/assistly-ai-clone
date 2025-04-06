@@ -1,9 +1,9 @@
 export interface Chatbot {
-    chatbot_characteristics : ChatbotCharacteristics[];
-    clerk_user_id: string;
-    created_at: string;
     id: number;
     name: string;
+    clerk_user_id: string;
+    created_at: string;
+    chatbot_characteristics : ChatbotCharacteristics[];
     chat_sessions: ChatSession[];
   }
   export interface ChatbotCharacteristics {
