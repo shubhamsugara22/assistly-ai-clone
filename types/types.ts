@@ -46,4 +46,9 @@ export interface Chatbot {
     clerk_user_id: string;
   }
   
-  
+  export interface GetUserChatbotsResponse {
+    chatbotsByUser: Chatbot[];
+  }  
+  export interface GetUserChatbotsVariables {
+    userId: string;
+  }
