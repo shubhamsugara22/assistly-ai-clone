@@ -1,6 +1,7 @@
 import { GET_USER_CHATBOTS } from "@/graphql/queries/queries";
 import { serverClient } from "@/lib/server/serverClient";
 import { auth } from "@clerk/nextjs/server";
+import  ChatBotSessions  from "@/components/ChatBotSessions";
 import { GetUserChatbotsResponse , GetUserChatbotsVariables } from "@/types/types";
 
 async function ReviewSessions() {
@@ -30,7 +31,9 @@ async function ReviewSessions() {
 	 <h1 className="text-xl lg:text-3xl font-semibold mt-10">
 		Chat sessions </h1>
 	 <h2 className="mb-5">
-		Review all the chat session that chat bots have had with your customers</h2>
+		Review all the chat session that chat bots have had with your customers
+		</h2>
+		<ChatBotSessions chatbots={sortedChatbotsByUser} />
 	</div>
   )
 }
