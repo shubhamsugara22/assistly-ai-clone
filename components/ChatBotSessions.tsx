@@ -1,6 +1,14 @@
 'use client';
 import { Chatbot }  from "@/types/types";
 import { useEffect , useState } from "react";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@/components/ui/accordion"
+import Avatar from "@/components/Avatar";
+  
 function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
    const [sortedChatbots, setSortedChatbots] = useState<Chatbot[]>
    (chatbots);
@@ -15,6 +23,39 @@ function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
 	
 	return (
 	<div>
+		<Accordion type="single" collapsible>
+         {sortedChatbots.map((chatbot) => {
+			const hasSessions = chatbot.chat_sessions.length > 0;
+
+			return (
+				<AccordionItem
+				 key={chatbot.id}
+				 value={`item-${chatbot.id}`}
+				 className="px-10 py-5"
+				>
+					{hasSessions ? (
+						<>
+						<AccordionTrigger>
+							<div className="flex text-left items-center w-full">
+								<Avatar seed={chatbot.name} className="h-10 w-10 mr-4"/>
+								<div className="flex flex-1 justify-between space-x-4">
+									<p>	{chatbot.name}</p>
+									<p className="pr-4 font-bold text-right">{chatbot.chat_sessions.length}</p>
+								</div>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent className="space-y-5 p-5 bg-gray-100 rounded-md">
+
+						</AccordionContent>
+						</>
+
+					): (
+						<p className="font-light">{chatbot.name} (No Sessions)</p>
+					)}
+				</AccordionItem>
+		 );
+        })}
+		</Accordion>
 	  Chatbotsessions
 	</div>
   )
