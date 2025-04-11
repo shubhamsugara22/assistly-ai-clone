@@ -2,7 +2,7 @@ import { GET_USER_CHATBOTS } from "@/graphql/queries/queries";
 import { serverClient } from "@/lib/server/serverClient";
 import { auth } from "@clerk/nextjs/server";
 import  ChatBotSessions  from "@/components/ChatBotSessions";
-import { GetUserChatbotsResponse , GetUserChatbotsVariables } from "@/types/types";
+import { Chatbot,GetUserChatbotsResponse , GetUserChatbotsVariables } from "@/types/types";
 
 async function ReviewSessions() {
 	const { userId } = await auth();
@@ -15,10 +15,11 @@ async function ReviewSessions() {
 	GetUserChatbotsVariables 
   >({
 	query: GET_USER_CHATBOTS,
-	variables: { userId }
+	variables: { userId: userId }
   });
 
-  const sortedChatbotsByUser: Chatbot[] = chatbotsByUser.map((chatbot) => ({
+  const sortedChatbotsByUser: Chatbot[] = 
+   chatbotsByUser?.map((chatbot) => ({
 	...chatbot,
 	chat_sessions: [...chatbot.chat_sessions].sort(
 		(a, b) =>
