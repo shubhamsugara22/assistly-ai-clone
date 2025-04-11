@@ -8,6 +8,8 @@ import {
 	AccordionTrigger,
 } from "@/components/ui/accordion"
 import Avatar from "@/components/Avatar";
+import { Link } from "lucide-react";
+import ReactTimeago from  "react-timeago";
   
 function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
    const [sortedChatbots, setSortedChatbots] = useState<Chatbot[]>
@@ -45,10 +47,26 @@ function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
 							</div>
 						</AccordionTrigger>
 						<AccordionContent className="space-y-5 p-5 bg-gray-100 rounded-md">
-
+                        {chatbot.chat_sessions.map((session) => (
+							<Link
+							 href={`/review-sessions/${session.id}`}
+							 key={session.id}
+							 className="relative p-10 bg-[#2991EE] text-white rounded-md block"
+							 >
+								<p className="text-lg font-bold">
+                                  {session.guests?.name || "Anonymous"}
+								</p>
+								<p className="text-sm font-light">
+                                {session.guests?.email || "No Email provided"}
+								</p>
+								<p>
+                                <ReactTimeago date={new Date(session.
+								created_at)} />
+								</p>
+							 </Link>
+						)) }
 						</AccordionContent>
 						</>
-
 					): (
 						<p className="font-light">{chatbot.name} (No Sessions)</p>
 					)}
