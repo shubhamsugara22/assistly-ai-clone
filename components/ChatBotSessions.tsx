@@ -16,6 +16,7 @@ function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
    (chatbots);
 
    useEffect(() => {
+	console.log("Chatbots data:", chatbots);
 	const sortedChatbotsByUser: Chatbot[] = [...chatbots].sort(
 		(a, b) => b.chat_sessions.length - a.chat_sessions.length
 	);
@@ -23,10 +24,10 @@ function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
    }, [chatbots]);
 	
 	return (
-	<div>
+	<div className="bg-white">
 		<Accordion type="single" collapsible>
          {sortedChatbots.map((chatbot) => {
-			const hasSessions = chatbot.chat_sessions.length < 0;
+			const hasSessions = chatbot.chat_sessions.length > 0;
 
 			return (
 				<AccordionItem
@@ -34,7 +35,7 @@ function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
 				 value={`item-${chatbot.id}`}
 				 className="px-10 py-5"
 				>
-					{!hasSessions ? (
+					{hasSessions ? (
 						<>
 						<AccordionTrigger>
 							<div className="flex text-left items-center w-full">
@@ -46,7 +47,9 @@ function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
 							</div>
 						</AccordionTrigger>
 						<AccordionContent className="space-y-5 p-5 bg-gray-100 rounded-md">
-                        {chatbot.chat_sessions.map((session) => (
+                        {chatbot.chat_sessions.map((session) => {
+							console.log("Session guests:", session.guests);
+							return  (
 							<Link
 							 href={`/review-sessions/${session.id}`}
 							 key={session.id}
@@ -59,11 +62,11 @@ function ChatBotSessions({ chatbots } : {chatbots: Chatbot[] }) {
                                   {session.guests?.email || "No Email provided"}
 								</p>
 								<p>
-                                <ReactTimeago date={new Date(session.
-								created_at)} />
+                                <ReactTimeago date={new Date(session.created_at)} />
 								</p>
 							 </Link>
-						)) }
+							);
+		                })};
 						</AccordionContent>
 						</>
 					): (

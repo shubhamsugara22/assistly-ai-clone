@@ -2,7 +2,7 @@ import { GET_USER_CHATBOTS } from "@/graphql/queries/queries";
 import { serverClient } from "@/lib/server/serverClient";
 import { auth } from "@clerk/nextjs/server";
 import  ChatBotSessions  from "@/components/ChatBotSessions";
-import { Chatbot,GetUserChatbotsResponse , GetUserChatbotsVariables } from "@/types/types";
+import { Chatbot , GetUserChatbotsResponse , GetUserChatbotsVariables } from "@/types/types";
 
 async function ReviewSessions() {
 	const { userId } = await auth();
