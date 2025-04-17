@@ -1,8 +1,7 @@
 import { GET_CHAT_SESSION_MESSAGES } from "@/graphql/queries/queries";
 import { serverClient } from "@/lib/server/serverClient";
 import { GetChatSessionMessagesResponse , GetChatSessionMessagesVariables } from "@/types/types";
-import { MessagesSquare } from "lucide-react";
-
+import Messages from "@/components/Messages";
 export const dynamic = "force-dynamic";
 
 async function ReviewSession( { params: { id } }: { params: { id:string } }) {
@@ -24,6 +23,7 @@ async function ReviewSession( { params: { id } }: { params: { id:string } }) {
 		query: GET_CHAT_SESSION_MESSAGES,
 		variables: { id: parseInt(id) },
 	});
+	console.log(messages);
 
   return (
 	<div className="flex-1 p-10 pb-24">
@@ -39,11 +39,7 @@ async function ReviewSession( { params: { id } }: { params: { id:string } }) {
 
 		<hr className="my-10"/>
 		<Messages
-		 messages={messages}
-		 chatSessionId={chatSessionId}
-		 chatbotName={name}
-		 guestName={guestName}
-		 />
+		 messages={messages} chatbotName={name} />
 	</div>
   )
 }
