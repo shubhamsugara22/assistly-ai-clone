@@ -22,6 +22,15 @@ function Messages({
 		key={message.id}
 		className={`chat ${isSender ? "chat-start" : "chat-end"}
 		relative `}>
+			{isReviewsPage && (
+				<p className="absolute -bottom-5 text-xs text-gray-300">
+					sent {new Date(message.created_at).toLocaleString()}
+				</p>
+
+				<div>
+					
+				</div>
+			)}
 		</div>
 	  )})}
 	</div>
