@@ -2,6 +2,8 @@
 
 import { Message } from "@/types/types";
 import { usePathname } from "next/navigation";
+import Avatar from "./Avatar";
+import { UserCircle } from "lucide-react";
 
 function Messages({ 
 	messages, 
@@ -26,11 +28,19 @@ function Messages({
 				<p className="absolute -bottom-5 text-xs text-gray-300">
 					sent {new Date(message.created_at).toLocaleString()}
 				</p>
+			)}
 
 				<div>
-					
-				</div>
-			)}
+					{isSender ? (
+						<Avatar
+						  seed={chatBotName}
+						  className="h-12 w-12 bg-white rounded-full border-2 border-[#2991EE]"
+						  />
+					) : (
+						<UserCircle className="text-[#2991EE]"/>
+					)}
+
+			</div>
 		</div>
 	  )})}
 	</div>
