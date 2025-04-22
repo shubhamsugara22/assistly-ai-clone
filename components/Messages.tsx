@@ -39,8 +39,16 @@ function Messages({
 					) : (
 						<UserCircle className="text-[#2991EE]"/>
 					)}
-
 			</div>
+			<p
+			 className={`chat-bubble text-white ${
+			 isSender
+			  ? "chat-bubble-primary bg-[#4D7DFB]"
+			  : "chat-bubble-secondary bg-gray-200 text-gray-700 " 
+			}`}
+			>
+				Hello
+			 </p>
 		</div>
 	  )})}
 	</div>
