@@ -19,6 +19,7 @@ function Messages({
 	<div>
 	  {messages.map((message) => {
 		const isSender = message.sender !== "user";
+		
 		return (
 		<div 
 		key={message.id}
@@ -30,7 +31,8 @@ function Messages({
 				</p>
 			)}
 
-				<div>
+				<div className={`chat-image avatar w-10 ${!isSender &&
+					"-mr-4"}`}>
 					{isSender ? (
 						<Avatar
 						  seed={chatBotName}
@@ -47,7 +49,7 @@ function Messages({
 			  : "chat-bubble-secondary bg-gray-200 text-gray-700 " 
 			}`}
 			>
-				Hello
+				{message.content}
 			 </p>
 		</div>
 	  )})}
