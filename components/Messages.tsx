@@ -6,6 +6,7 @@ import Avatar from "./Avatar";
 import { UserCircle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useEffect , useRef } from "react";
 
 function Messages({ 
 	messages, 
@@ -14,9 +15,17 @@ function Messages({
 	messages: Message[];
 	chatBotName: string;
 }) {
-
+    
+	const ref = useRef<HTMLDivElement>(null);
 	const path = usePathname();
 	const isReviewsPage = path.includes("review-sessions");
+
+	useEffect(() => {
+		if ( ref.current) {
+			ref.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [messages]);
+
   return (
 	<div className="flex-1 flex flex-col overflow-y-auto space-y-10 py-10 px-5 bg-white rounded-lg"> 
 	  {messages.map((message) => {
@@ -108,7 +117,9 @@ function Messages({
 				</div>
 			 </p>
 		</div>
-	  )})}
+	  );
+	  })}
+	  <div ref={ref} />
 	</div>
   );
 }
