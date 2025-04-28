@@ -20,8 +20,8 @@ async function ViewChatbots() {
 	if (!userId) return;
 
 	// get the chatbots for user
-	const { data } 	= 
-	await serverClient.query<
+	const { data : { chatbotsByUser } ,} =
+    await serverClient.query<
 	GetChatbotByUserData,
 	GetChatbotByUserDataVariables
 	>({
@@ -30,13 +30,13 @@ async function ViewChatbots() {
 			clerk_user_id: userId,
 		},
 	});
-	console.log("GraphQL Response:", data);
-	const chatbotsByUser = data?.chatbotsByUser || [];
-    const sortedChatbotByUser: Chatbot[] = chatbotsByUser.length ? [...chatbotsByUser].sort(
+	//console.log("GraphQL Response:", data);
+	
+	//const chatbotsByUser = data?.chatbotsByUser || [];
+    const sortedChatbotByUser: Chatbot[] =  [...chatbotsByUser].sort(
 		(a, b) =>
 			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
 	)
-	:[];
 	console.log(sortedChatbotByUser);
   return (
 	<div className="flex-1 pb-20 p-10">
@@ -60,7 +60,7 @@ async function ViewChatbots() {
 		)}
 		<ul className="flex flex-col space-y-5">
 			{sortedChatbotByUser.map((chatbots) => (
-				<Link key={chatbots.id} href={`/edit-chatbots/${chatbots.id}`}>
+				<Link key={chatbots.id} href={`/edit-chatbot/${chatbots.id}`}>
 					<li className="relative p-10 border rounded-md max-w-3xl bg-white" >
 						<div className="flex justify-between items-center">
 						<div className="flex items-center space-x-4">
