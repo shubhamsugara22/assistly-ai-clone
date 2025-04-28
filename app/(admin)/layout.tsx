@@ -4,12 +4,12 @@ import Sidebar from '@/components/Sidebar';
 import { redirect } from 'next/navigation';
 import  { auth } from "@clerk/nextjs/server";
 
-function AdminLayout({
+async function AdminLayout({
 	children,
   }: Readonly<{
 	children: React.ReactNode;
   }>) {
-	const { userId } = await auth();
+	const { userId } =  await auth();
 	if (!userId) {
 		return redirect("/login");
 	}
