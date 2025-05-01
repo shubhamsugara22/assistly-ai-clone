@@ -22,6 +22,15 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 
 	return (
 	<div>
+		<Dialog open={isOpen} onOpenChange={setIsOpen}>
+			<DialogContent className="sm:maz-w-[425px]">
+				<form>
+					
+				</form>
+
+			</DialogContent>
+
+		</Dialog>
 	  Chatbotpage {id} 
 	</div>
   )
