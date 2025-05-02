@@ -3,6 +3,7 @@ import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -13,6 +14,7 @@ import { Input } from "@/components/ui/input";
 
 import { Message } from "postcss";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 
 function ChatbotPage({ params: { id } }: { params: { id: string } }) {
@@ -24,17 +26,18 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   const [message, setMessages] = useState<Message[]>([]);
 
 	return (
-	<div>
+	<div className="w-full flex bg-gray-100">
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogContent className="sm:max-w-[425px]">
 				<form>
 				<DialogHeader>
+					<DialogTitle>Let help you out </DialogTitle>
 					<DialogDescription>
 						I just need a few details to get started.
 					</DialogDescription>
 				</DialogHeader>
 
-				<div>
+				<div className="grid gap-4 py-4">
 					<div className="grid grid-cols-4 items-center gap-4">
 						<Label htmlFor="name" className="text-right">
 							Name
@@ -62,6 +65,12 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 						 />
 					</div>
 				</div>
+				<DialogFooter>
+					<Button type="submit" disabled={!name || !email || loading }>
+					{!loading ? "Continue" : "Loading..."}
+					</Button>
+
+				</DialogFooter>
 			</form>
 			</DialogContent>
 		</Dialog>
