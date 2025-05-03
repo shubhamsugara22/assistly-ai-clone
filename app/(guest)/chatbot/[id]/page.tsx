@@ -24,12 +24,23 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   const [chatId, setChatId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [message, setMessages] = useState<Message[]>([]);
+  
+  const  handleInformationSubmit = async (e: React.FormEvent) => {
+	e.preventDefault();
 
+	setLoading(true);
+
+	const chatId = await startNewChat(name, email, Number(id));
+
+	setChatId(chatId);
+	setLoading(false);
+	setIsOpen(false);
+  }
 	return (
 	<div className="w-full flex bg-gray-100">
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogContent className="sm:max-w-[425px]">
-				<form>
+			<DialogContent className="flex sm:max-w-[425px]">
+				<form onSubmit={handleInformationSubmit} className="flex-1">
 				<DialogHeader>
 					<DialogTitle>Let help you out </DialogTitle>
 					<DialogDescription>
