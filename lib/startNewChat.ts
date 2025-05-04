@@ -1,5 +1,6 @@
 import client from "@/graphql/apolloClient";
 import { INSERT_MESSAGE } from "@/graphql/mutations/insertMessage";
+import { INSERT_GUEST } from "@/graphql/mutations/mutations";
 import { gql } from "@apollo/client";
 
 async function startNewChat(
@@ -8,6 +9,12 @@ async function startNewChat(
 	chatbotId: number
 ) {
 	try {
+	// 1. Create a new guest entry
+	const guestResult = await client.mutate({
+		mutation:INSERT_GUEST,
+	    variables: {name: guestName, email: guestEmail },
+	});
+	const guestId = guestResult.data.insertGuests.id;
 
 	} catch(error) {
 		console.error("Error starting new chat session", error)
