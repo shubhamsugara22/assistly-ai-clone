@@ -16,6 +16,13 @@ async function startNewChat(
 	});
 	const guestId = guestResult.data.insertGuests.id;
 
+	// 2. Intialize a new chat session
+
+	const chatSessionResult = await client.mutate({
+		mutation: INSERT_CHAT_SESSION,
+		variables: { chatbot_id: chatbotId , guest_id: guestId},
+	})
+
 	} catch(error) {
 		console.error("Error starting new chat session", error)
 	}

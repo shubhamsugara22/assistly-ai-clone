@@ -83,10 +83,28 @@ export const INSERT_MESSAGE = gql`
 `;
 
 export const INSERT_GUEST = gql`
-mutation insertGuest($nameL String!, $email: String!) 
-{
-  insertGuests(name: $name, email: $email) {
-    id
+    mutation insertGuest(
+    $name: String!, 
+    $email: String!
+    ){
+      insertGuests(
+      name: $name, 
+      email: $email) 
+      {
+        id
+  }
+}
+`;
+export const INSERT_CHAT_SESSION = gql`
+    mutation insertChatSession(
+    $chatbot_id: Int!, 
+    $guest_id: Int!
+    ){
+      insertChat_sessions(
+      chatbot_id: $chatbot_id, 
+      guest_id: $guest_id) 
+      {
+        id
   }
 }
 `;
