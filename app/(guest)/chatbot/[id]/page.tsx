@@ -11,11 +11,15 @@ import {
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input";
 import  startNewChat from "@/lib/startNewChat";
+import Avatar from "@/components/Avatar"
 
 
 import { Message } from "postcss";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@apollo/client";
+import { GetChatbotByIdResponse } from "@/types/types";
+import { GET_CHATBOT_BY_ID } from "@/graphql/queries/queries";
 
 
 function ChatbotPage({ params: { id } }: { params: { id: string } }) {
@@ -25,6 +29,14 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   const [chatId, setChatId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [message, setMessages] = useState<Message[]>([]);
+  
+ 
+  const { data: chatBotData } = useQuery<GetChatbotByIdResponse>(
+	GET_CHATBOT_BY_ID,
+	{
+		variables: { id },
+	}
+  ); 
   
   const  handleInformationSubmit = async (e: React.FormEvent) => {
 	e.preventDefault();
@@ -70,8 +82,8 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 						<Input
 						 id="username"
 						 type="email"
-						 value={name}
-						 onChange={(e) => setName(e.target.value)}
+						 value={email}
+						 onChange={(e) => setEmail(e.target.value)}
 						 placeholder="John@appleseed.com"
 						 className="col-span-3"
 						 />
@@ -86,6 +98,20 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 			</form>
 			</DialogContent>
 		</Dialog>
+
+		<div className="flex flex-col w-full max-w-3xl mx-auto bg-white md:rounded-t-lg shadow-2xl md:mt-10">
+			<div className="pb-4 border-b sticky top-0 z-50 bg-[#4D7DFB] py-5 px-10 text-white md:rounded-t-lg flex items-center space-x-4">
+				<Avatar 
+				    seed={chatBotData?.chatbots?.name}
+				className="h-12 w-12 bg-white rounded-full border-2 border-white"
+				/>
+			</div>
+			<h1 className="truncate text-lg">{chatBotData?.chatbots.name}</h1>
+			<p className="text-sm text-gray-300">
+				Typically replies instantly
+			</p>
+
+		</div>
 	</div>
   )
 }

@@ -1,6 +1,5 @@
 import client from "@/graphql/apolloClient";
-import { INSERT_MESSAGE } from "@/graphql/mutations/insertMessage";
-import { INSERT_GUEST , INSERT_CHAT_SESSION } from "@/graphql/mutations/mutations";
+import { INSERT_GUEST , INSERT_CHAT_SESSION, INSERT_MESSAGE } from "@/graphql/mutations/mutations";
 import { gql } from "@apollo/client";
 
 async function startNewChat(
