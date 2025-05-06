@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input";
+import  startNewChat from "@/lib/startNewChat";
 
 
 import { Message } from "postcss";
