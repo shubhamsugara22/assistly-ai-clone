@@ -13,13 +13,17 @@ import { Input } from "@/components/ui/input";
 import  startNewChat from "@/lib/startNewChat";
 import Avatar from "@/components/Avatar"
 
-
-import { Message } from "postcss";
-import { useState } from "react";
+import  Messages  from "@/components/Messages";
+import { useEffect ,useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@apollo/client";
-import { GetChatbotByIdResponse } from "@/types/types";
-import { GET_CHATBOT_BY_ID } from "@/graphql/queries/queries";
+import { 
+	GetChatbotByIdResponse,
+    Message,  
+	MessageByChatSessionIdResponse,
+	MessageByChatSessionIdVariables,
+ } from "@/types/types";
+import { GET_CHATBOT_BY_ID, GET_MESSAGES_BY_CHAT_SESSION_ID } from "@/graphql/queries/queries";
 
 
 function ChatbotPage({ params: { id } }: { params: { id: string } }) {
@@ -28,7 +32,7 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   const [isOpen, setIsOpen] = useState(true);
   const [chatId, setChatId] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [message, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   
  
   const { data: chatBotData } = useQuery<GetChatbotByIdResponse>(
@@ -42,13 +46,20 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 	loading: loadingQuery,
 	error,
 	data,
-  } = useQuery<MessageByChatSessionIdResponse>(
+  } = useQuery<MessageByChatSessionIdResponse , MessageByChatSessionIdVariables>(
 	GET_MESSAGES_BY_CHAT_SESSION_ID,
 	{
 		variables: { chat_session_id: chatId },
 		skip: !chatId,
 	}
   );
+
+  useEffect(() => {
+	if (data) {
+		setMessages(data.chat_sessions.messages);
+	}
+
+  }, [data])
   
   const  handleInformationSubmit = async (e: React.FormEvent) => {
 	e.preventDefault();
@@ -117,14 +128,19 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 				    seed={chatBotData?.chatbots?.name}
 				className="h-12 w-12 bg-white rounded-full border-2 border-white"
 				/>
-			</div>
+			<div>
 			<h1 className="truncate text-lg">{chatBotData?.chatbots.name}</h1>
 			<p className="text-sm text-gray-300">
 				Typically replies instantly
 			</p>
-
-		</div>
-	</div>
+		   </div>
+	    </div>
+		<Messages
+		 messages={messages}
+		 chatbotName={chatBotData?.chatbots.name!}
+		 />
+    </div>
+</div>
   )
 }
 
