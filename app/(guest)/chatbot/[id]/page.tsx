@@ -37,6 +37,18 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 		variables: { id },
 	}
   ); 
+
+  const {
+	loading: loadingQuery,
+	error,
+	data,
+  } = useQuery<MessageByChatSessionIdResponse>(
+	GET_MESSAGES_BY_CHAT_SESSION_ID,
+	{
+		variables: { chat_session_id: chatId },
+		skip: !chatId,
+	}
+  );
   
   const  handleInformationSubmit = async (e: React.FormEvent) => {
 	e.preventDefault();

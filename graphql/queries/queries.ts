@@ -87,3 +87,18 @@ export const GET_CHAT_SESSION_MESSAGES = gql`
     }
   }
 `;
+
+export const GET_MESSAGES_BY_CHAT_SESSION_ID = gql`
+   query GetMessageNyChatSessionId($chat_session_id: Int!) {
+    chat_sessions(id: $chat_session_id) {
+      id
+      messages {
+        id
+        content
+        sender
+        created_at
+        }
+      }
+   }
+`;
+
