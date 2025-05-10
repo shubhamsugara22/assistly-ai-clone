@@ -74,7 +74,7 @@ export interface Chatbot {
 
 
 export interface MessagesByChatSessionIdResponse {
-  chat_sessions: ChatSessions;
+  chat_sessions: ChatSession;
 }
 
 export interface MessagesByChatSessionIdVariables {
