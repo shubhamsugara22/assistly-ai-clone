@@ -15,6 +15,7 @@ import Avatar from "@/components/Avatar"
 
 import  Messages  from "@/components/Messages";
 import { useEffect ,useState } from "react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@apollo/client";
 import { 
@@ -24,7 +25,11 @@ import {
 	MessagesByChatSessionIdVariables,
  } from "@/types/types";
 import { GET_CHATBOT_BY_ID, GET_MESSAGES_BY_CHAT_SESSION_ID } from "@/graphql/queries/queries";
+import { useForm } from "react-hook-form";
 
+const formSchema = z.object({
+	message: z.string().min(2,"Your message is too short"),
+});																								
 
 function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   const [name, setName] = useState('');
@@ -34,7 +39,12 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   
- 
+  const form = useForm<z.infer<typeof formSchema>>({
+	resolver: zodResolver(formSchema),
+	defaultValues: {
+		message: "",
+	}
+  })
   const { data: chatBotData } = useQuery<GetChatbotByIdResponse>(
 	GET_CHATBOT_BY_ID,
 	{
