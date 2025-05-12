@@ -16,6 +16,7 @@ import Avatar from "@/components/Avatar"
 import  Messages  from "@/components/Messages";
 import { useEffect ,useState } from "react";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@apollo/client";
 import { 
@@ -26,6 +27,7 @@ import {
  } from "@/types/types";
 import { GET_CHATBOT_BY_ID, GET_MESSAGES_BY_CHAT_SESSION_ID } from "@/graphql/queries/queries";
 import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const formSchema = z.object({
 	message: z.string().min(2,"Your message is too short"),
@@ -149,6 +151,31 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 		 messages={messages}
 		 chatbotName={chatBotData?.chatbots.name!}
 		 />
+
+		 <Form {...form}>
+			<form className="flex items-start sticky bottom-0 z-50 space-x-4 drop-shadow-lg pg-4 bg-gray-100 rounded-md">
+				<FormField
+				  control={form.control}
+				  name="message"
+				  render={({ field }) => (
+				    <FormItem>
+					    <FormLabel hidden>Message</FormLabel>
+					    <FormControl>
+						    <Input
+						        placeholder="Type you message"
+						        {...field}
+						        className="p-8"
+						    />
+					    </FormControl>
+					   <FormMessage/>
+				    </FormItem>
+				    )}
+				/>
+				<Button type="submit" className="h-full">
+					Send
+				</Button>
+			</form>
+		 </Form>
     </div>
 </div>
   )
