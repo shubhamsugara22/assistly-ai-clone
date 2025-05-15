@@ -84,6 +84,10 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 	setLoading(false);
 	setIsOpen(false);
   }
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+  
+  }
 	return (
 	<div className="w-full flex bg-gray-100">
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -153,7 +157,9 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 		 />
 
 		 <Form {...form}>
-			<form className="flex items-start sticky bottom-0 z-50 space-x-4 drop-shadow-lg pg-4 bg-gray-100 rounded-md">
+			<form 
+			onSubmit={form.handleSubmit(onSubmit)}
+			className="flex items-start sticky bottom-0 z-50 space-x-4 drop-shadow-lg pg-4 bg-gray-100 rounded-md">
 				<FormField
 				  control={form.control}
 				  name="message"
