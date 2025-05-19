@@ -101,6 +101,22 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
    if (!message.trim()) {
 	return; // Do not submit if the message is empty
    } 
+
+   const userMessage: Message = {
+	id: Date.now(),
+	content: message,
+	created_at: new Date().toISOString(),
+	chat_session_id: chatId,
+	sender: "user",
+   };
+   const loadingMessage: Message = {
+	id: Date.now() + 1,
+	content: "Thinking...",
+	created_at: new Date().toISOString(),
+	chat_session_id: chatId,
+	sender: "ai",
+	
+   }
   }
 	return (
 	<div className="w-full flex bg-gray-100">
@@ -178,7 +194,7 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 				  control={form.control}
 				  name="message"
 				  render={({ field }) => (
-				    <FormItem>
+				    <FormItem className="flex-1">
 					    <FormLabel hidden>Message</FormLabel>
 					    <FormControl>
 						    <Input
@@ -194,7 +210,7 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 				<Button 
 				type="submit" 
 				className="h-full"
-				disabled={form.formState.isSubmitting || !form.formState.isValid}>
+				disabled={!form.formState.isSubmitting || !form.formState.isValid}>
 					Send
 				</Button>
 			</form>
