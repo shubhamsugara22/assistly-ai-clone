@@ -86,7 +86,21 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-  
+	setLoading(true);
+	const { message: formMessage } = values;
+
+	const message = formMessage;
+	form.reset();
+
+	if (!name ||  !email) {
+		setIsOpen(true);
+		setLoading(false);
+		return;
+	}
+   // Handle message flow here
+   if (!message.trim()) {
+	return; // Do not submit if the message is empty
+   } 
   }
 	return (
 	<div className="w-full flex bg-gray-100">
@@ -177,7 +191,10 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 				    </FormItem>
 				    )}
 				/>
-				<Button type="submit" className="h-full">
+				<Button 
+				type="submit" 
+				className="h-full"
+				disabled={form.formState.isSubmitting || !form.formState.isValid}>
 					Send
 				</Button>
 			</form>
