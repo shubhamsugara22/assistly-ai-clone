@@ -115,8 +115,34 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 	created_at: new Date().toISOString(),
 	chat_session_id: chatId,
 	sender: "ai",
-	
-   }
+   };
+
+	setMessages((prevMessages) => [
+		...prevMessages,
+		userMessage,
+		loadingMessage,
+	]);
+   
+	try {
+		const response = await fetch("/api/send-message", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				name: name,
+				chat_session_id: chatId,
+				chatbot_id: id,
+				content: message,
+			}),
+		});
+
+		const result = await response.json();
+		
+	} catch (error) {
+		console.log("Error Sending message:", error);
+		
+	}
   }
 	return (
 	<div className="w-full flex bg-gray-100">
