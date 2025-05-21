@@ -138,6 +138,14 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 		});
 
 		const result = await response.json();
+        // Update the loading message for AI with actual response
+		setMessages((prevmessages) => 
+		    prevmessages.map((msg) => 
+		        msg.id === loadingMessage.id
+		        ? { ...msg, content: result.content, id: result.id } 
+				: msg	
+	)
+)
 		
 	} catch (error) {
 		console.log("Error Sending message:", error);
