@@ -24,7 +24,16 @@ export async function POST(req: NextRequest) {
 		if (!chatbot) {
 			return NextResponse.json({ err: "Chatbot not found"}, { status: 404 });
 		}
+    // Step 2:  Fetch previous messages
 
+	const { data: messageData } = 
+	await serverClient.query<MessagesByChatSessionIdResponse>({
+		query: GET_MESSAGES_BY_CHAT_SESSION_ID,
+		variables: { chat_session_id }
+		fetchPolicy: "no-cache"
+	});
+
+	const previousMessages = messageData.chat_session_messages;
 
 	} catch (error) {
 		console.error("Erro sending message:", error);
