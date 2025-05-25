@@ -64,8 +64,17 @@ export async function POST(req: NextRequest) {
 			role: "user",
 			name: name,
 			content: content,
-		}
+		};
 	]
+    
+	// Step 3: Send the message to OpenAI's Completions API
+
+	const openaiResponse = await openai.chat.completions.create({
+		messages: messages,
+		model: "gpt-4o",
+	});
+
+	const aiResponse = openaiResponse?.choices?.[0]?.message?.content?.trim();
 
 	} catch (error) {
 		console.error("Erro sending message:", error);
