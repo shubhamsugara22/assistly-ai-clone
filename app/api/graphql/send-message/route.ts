@@ -90,6 +90,14 @@ export async function POST(req: NextRequest) {
 		mutation: INSERT_MESSAGE,
 		variables: { chat_session_id, content, sender: "user"},
 	});
+
+	// Step 5: Save the AI response in the database
+
+	const aiMessageResult = await serverClient.mutate({
+		mutation: INSERT_MESSAGE,
+		variables: { chat_session_id, content: aiResponse, sender: "ai"},
+	});
+	
 	} catch (error) {
 		console.error("Erro sending message:", error);
 		return NextResponse.json({ error }, { status: 500 });
