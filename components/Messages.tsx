@@ -10,10 +10,10 @@ import { useEffect , useRef } from "react";
 
 function Messages({ 
 	messages, 
-	chatBotName 
+	chatbotName,
 } : {
 	messages: Message[];
-	chatBotName: string;
+	chatbotName: string;
 }) {
     
 	const ref = useRef<HTMLDivElement>(null);
@@ -25,6 +25,7 @@ function Messages({
 			ref.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [messages]);
+	console.log(messages);
 
   return (
 	<div className="flex-1 flex flex-col overflow-y-auto space-y-10 py-10 px-5 bg-white rounded-lg"> 
@@ -46,7 +47,7 @@ function Messages({
 					"-mr-4"}`}>
 					{isSender ? (
 						<Avatar
-						  seed={chatBotName}
+						  seed={chatbotName}
 						  className="h-12 w-12 bg-white rounded-full border-2 border-[#2991EE]"
 						  />
 					) : (

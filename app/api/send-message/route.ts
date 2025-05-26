@@ -1,5 +1,5 @@
 import { INSERT_MESSAGE } from "@/graphql/mutations/mutations";
-import { GET_CHATBOT_BY_I, GET_MESSAGES_BY_CHAT_SESSION_ID } from "@/graphql/queries/queries";
+import { GET_CHATBOT_BY_ID, GET_MESSAGES_BY_CHAT_SESSION_ID } from "@/graphql/queries/queries";
 import { serverClient } from "@/lib/server/serverClient";
 import { GetChatbotByIdResponse, MessagesByChatSessionIdResponse } from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
@@ -31,11 +31,11 @@ export async function POST(req: NextRequest) {
 	const { data: messageData } = 
 	await serverClient.query<MessagesByChatSessionIdResponse>({
 		query: GET_MESSAGES_BY_CHAT_SESSION_ID,
-		variables: { chat_session_id }
+		variables: { chat_session_id },
 		fetchPolicy: "no-cache"
 	});
 
-	const previousMessages = messageData.chat_session_messages;
+	const previousMessages = messageData.chat_sessions.message;
 
 	const formattedPreviousMessages: ChatCompletionMessageParam[] =
 	previousMessages.map((message) => ({
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 	}));
 
 	//Combine charateristics into a system prompt
-	const systemPrompt = chatbot.chat_characteristics
+	const systemPrompt = chatbot.chatbot_characteristics
 	.map((c) => c.content)
 	.join(" + ");
 
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 			role: "user",
 			name: name,
 			content: content,
-		};
+		},
 	]
     
 	// Step 3: Send the message to OpenAI's Completions API
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
 	if(!aiResponse) {
 		return NextResponse.json(
 			{ error: "Failed to generate AI response" },
-			{status: 500}
+			{ status: 500 }
 		);
 	}
 
@@ -88,18 +88,22 @@ export async function POST(req: NextRequest) {
 
 	await serverClient.mutate({
 		mutation: INSERT_MESSAGE,
-		variables: { chat_session_id, content, sender: "user"},
+		variables: { chat_session_id, content, sender: "user", created_at: created_at },
 	});
 
 	// Step 5: Save the AI response in the database
 
 	const aiMessageResult = await serverClient.mutate({
 		mutation: INSERT_MESSAGE,
-		variables: { chat_session_id, content: aiResponse, sender: "ai"},
+		variables: { chat_session_id, content: aiResponse, sender: "ai", created_at: created_at},
 	});
-	
+	return NextResponse.json({
+    id: aiMessageResult.data.insertMessages.id,
+    content: aiResponse
+    });
+
 	} catch (error) {
-		console.error("Erro sending message:", error);
+		console.error("Error sending message:", error);
 		return NextResponse.json({ error }, { status: 500 });
 	}
 

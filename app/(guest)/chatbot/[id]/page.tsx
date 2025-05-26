@@ -40,6 +40,7 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   const [chatId, setChatId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const now = new Date().toISOString();
   
   const form = useForm<z.infer<typeof formSchema>>({
 	resolver: zodResolver(formSchema),
@@ -68,31 +69,26 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 
   useEffect(() => {
 	if (data) {
-		setMessages(data.chat_sessions.messages);
+		setMessages(data.chat_sessions.message);
 	}
 
   }, [data]);
   
   const  handleInformationSubmit = async (e: React.FormEvent) => {
 	e.preventDefault();
-
 	setLoading(true);
-
 	const chatId = await startNewChat(name, email, Number(id));
-
 	setChatId(chatId);
 	setLoading(false);
 	setIsOpen(false);
-  }
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
 	setLoading(true);
 	const { message: formMessage } = values;
-
 	const message = formMessage;
 	form.reset();
-
-	if (!name ||  !email) {
+	if (!name || !email) {
 		setIsOpen(true);
 		setLoading(false);
 		return;
@@ -134,19 +130,19 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 				chat_session_id: chatId,
 				chatbot_id: id,
 				content: message,
+				created_at: now,
 			}),
 		});
 
 		const result = await response.json();
         // Update the loading message for AI with actual response
-		setMessages((prevmessages) => 
-		    prevmessages.map((msg) => 
+		setMessages((prevMessages) => 
+		    prevMessages.map((msg) => 
 		        msg.id === loadingMessage.id
 		        ? { ...msg, content: result.content, id: result.id } 
 				: msg	
 	)
-)
-		
+)	
 	} catch (error) {
 		console.log("Error Sending message:", error);
 		
@@ -196,7 +192,6 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 					<Button type="submit" disabled={!name || !email || loading }>
 					{!loading ? "Continue" : "Loading..."}
 					</Button>
-
 				</DialogFooter>
 			</form>
 			</DialogContent>
@@ -205,7 +200,7 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 		<div className="flex flex-col w-full max-w-3xl mx-auto bg-white md:rounded-t-lg shadow-2xl md:mt-10">
 			<div className="pb-4 border-b sticky top-0 z-50 bg-[#4D7DFB] py-5 px-10 text-white md:rounded-t-lg flex items-center space-x-4">
 				<Avatar 
-				    seed={chatBotData?.chatbots.name!}
+				    seed={chatBotData?.chatbots?.name}
 				className="h-12 w-12 bg-white rounded-full border-2 border-white"
 				/>
 			<div>
@@ -217,9 +212,8 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 	    </div>
 		<Messages
 		 messages={messages}
-		 chatbotName={chatBotData?.chatbots.name!}
+		 chatbotName={chatBotData?.chatbots.name}
 		 />
-
 		 <Form {...form}>
 			<form 
 			onSubmit={form.handleSubmit(onSubmit)}
@@ -244,7 +238,7 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 				<Button 
 				type="submit" 
 				className="h-full"
-				disabled={!form.formState.isSubmitting || !form.formState.isValid}>
+				disabled={!form.formState.isValid}>
 					Send
 				</Button>
 			</form>
@@ -254,4 +248,4 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
   )
 }
 
-export default ChatbotPage
+export default ChatbotPage;
