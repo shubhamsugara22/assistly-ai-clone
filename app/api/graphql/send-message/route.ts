@@ -1,3 +1,4 @@
+import { INSERT_MESSAGE } from "@/graphql/mutations/mutations";
 import { GET_CHATBOT_BY_I, GET_MESSAGES_BY_CHAT_SESSION_ID } from "@/graphql/queries/queries";
 import { serverClient } from "@/lib/server/serverClient";
 import { GetChatbotByIdResponse, MessagesByChatSessionIdResponse } from "@/types/types";
@@ -76,6 +77,19 @@ export async function POST(req: NextRequest) {
 
 	const aiResponse = openaiResponse?.choices?.[0]?.message?.content?.trim();
 
+	if(!aiResponse) {
+		return NextResponse.json(
+			{ error: "Failed to generate AI response" },
+			{status: 500}
+		);
+	}
+
+	// Step 4 : Save the user message in the database
+
+	await serverClient.mutate({
+		mutation: INSERT_MESSAGE,
+		variables: { chat_session_id, content, sender: "user"},
+	});
 	} catch (error) {
 		console.error("Erro sending message:", error);
 		return NextResponse.json({ error }, { status: 500 });
