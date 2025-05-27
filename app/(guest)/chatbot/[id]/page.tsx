@@ -1,4 +1,6 @@
-'use client';
+"use client";
+import React from "react";
+
 import {
 	Dialog,
 	DialogContent,
@@ -6,7 +8,6 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input";
@@ -32,8 +33,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 const formSchema = z.object({
 	message: z.string().min(2,"Your message is too short"),
 });																								
-
-function ChatbotPage({ params: { id } }: { params: { id: string } }) {
+function ChatbotPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isOpen, setIsOpen] = useState(true);
@@ -71,7 +72,6 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 	if (data) {
 		setMessages(data.chat_sessions.message);
 	}
-
   }, [data]);
   
   const  handleInformationSubmit = async (e: React.FormEvent) => {
@@ -135,6 +135,7 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 		});
 
 		const result = await response.json();
+		console.log("chat_session_id", chatId);
         // Update the loading message for AI with actual response
 		setMessages((prevMessages) => 
 		    prevMessages.map((msg) => 

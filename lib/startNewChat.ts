@@ -34,6 +34,8 @@ async function startNewChat(
 			created_at: new Date().toISOString(),
 		},
 	});
+	    console.log("Now chat session started successfully");
+        return chatSessionId
 
 	} catch(error) {
 		console.error("Error starting new chat session", error)
