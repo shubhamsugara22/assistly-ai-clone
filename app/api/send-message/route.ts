@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
 		variables: { chat_session_id },
 		fetchPolicy: "no-cache"
 	});
-
-	const previousMessages = messageData.chat_sessions.message;
+    console.log("messageData:", messageData);
+	const previousMessages = messageData?.chat_sessions?.[0]?.message || [];
 
 	const formattedPreviousMessages: ChatCompletionMessageParam[] =
 	previousMessages.map((message) => ({

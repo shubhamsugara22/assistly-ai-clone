@@ -11,7 +11,7 @@ async function startNewChat(
 	// 1. Create a new guest entry
 	const guestResult = await client.mutate({
 		mutation:INSERT_GUEST,
-	    variables: {name: guestName, email: guestEmail },
+	    variables: {name: guestName, email: guestEmail, created_at: new Date().toISOString(), },
 	});
 	const guestId = guestResult.data.insertGuests.id;
 
@@ -19,7 +19,7 @@ async function startNewChat(
 
 	const chatSessionResult = await client.mutate({
 		mutation: INSERT_CHAT_SESSION,
-		variables: { chatbot_id: chatbotId , guest_id: guestId},
+		variables: { chatbot_id: chatbotId , guest_id: guestId, created_at: new Date().toISOString(),},
 	})
 	const chatSessionId = chatSessionResult.data.insertChat_sessions.id;
 
@@ -31,6 +31,7 @@ async function startNewChat(
 			chat_session_id : chatSessionId,
 			sender: "ai",
 			content: "welcome ${guestname}!\n how can i assist you today ?",
+			created_at: new Date().toISOString(),
 		},
 	});
 

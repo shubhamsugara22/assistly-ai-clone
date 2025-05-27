@@ -14,7 +14,7 @@ function CreateChatbot() {
 	const router = useRouter();
 
 
-	const [createChatbot, { data, loading, error }] = useMutation(
+	const [createChatbot, {data,loading,error}] = useMutation(
 		CREATE_CHATBOT, 
 		{
 		variables: {
@@ -23,7 +23,7 @@ function CreateChatbot() {
 			created_at: new Date().toISOString()
 		    },
 	    }
-    );
+    )
 
   const handleSubmit = async (e: FormEvent ) => {
 	e.preventDefault();
@@ -33,9 +33,10 @@ function CreateChatbot() {
 		const data = await createChatbot();
 		setName("");
 
-		router.push(`/edit-chatbot/${data.data.insertChatbots.id}`);
-	} catch (err) {
-		console.log(err);
+		router.push(`/edit-chatbot/${data.data.insertChatbots.id}`)
+
+	} catch (error) {
+		console.log(error);
 	}
   };
 
@@ -72,4 +73,4 @@ function CreateChatbot() {
   )
 }
 
-export default CreateChatbot
+export default CreateChatbot;

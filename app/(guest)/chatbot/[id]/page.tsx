@@ -142,7 +142,7 @@ function ChatbotPage({ params: { id } }: { params: { id: string } }) {
 		        ? { ...msg, content: result.content, id: result.id } 
 				: msg	
 	)
-)	
+);
 	} catch (error) {
 		console.log("Error Sending message:", error);
 		

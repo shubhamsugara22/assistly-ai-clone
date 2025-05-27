@@ -65,14 +65,16 @@ export const UPDATE_CHATBOT = gql`
 `;
 export const INSERT_MESSAGE = gql`
   mutation InsertMessage(
-    $chatbot_session_id: Int!
+    $chat_session_id: Int!
     $content: String!
     $sender: String!
+    $created_at: DateTime!
   ) {
     insertMessages(
-      chatbot_session_id: $chatbot_session_id
+      chat_session_id: $chat_session_id
       content: $content
       sender: $sender
+      created_at: $created_at
     ) {
       id
       content
