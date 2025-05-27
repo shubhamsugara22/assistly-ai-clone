@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-
 import {
 	Dialog,
 	DialogContent,
@@ -68,11 +67,13 @@ function ChatbotPage({ params }: { params: Promise<{ id: string }> }) {
 	}
   );
 
-  useEffect(() => {
-	if (data) {
-		setMessages(data.chat_sessions.message);
-	}
-  }, [data]);
+useEffect(() => {
+  if (data && data.chat_sessions && data.chat_sessions.message) {
+    setMessages(data.chat_sessions.message);
+  } else {
+    setMessages([]); // fallback to empty array
+  }
+}, [data]);
   
   const  handleInformationSubmit = async (e: React.FormEvent) => {
 	e.preventDefault();
@@ -212,7 +213,7 @@ function ChatbotPage({ params }: { params: Promise<{ id: string }> }) {
 		   </div>
 	    </div>
 		<Messages
-		 messages={messages}
+		 messages={messages || []}
 		 chatbotName={chatBotData?.chatbots.name}
 		 />
 		 <Form {...form}>

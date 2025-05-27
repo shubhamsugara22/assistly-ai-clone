@@ -28,14 +28,14 @@ export async function POST(req: NextRequest) {
 		}
     // Step 2:  Fetch previous messages
 
-	const { data: messageData } = 
+	const { data: messagesData } = 
 	await serverClient.query<MessagesByChatSessionIdResponse>({
 		query: GET_MESSAGES_BY_CHAT_SESSION_ID,
 		variables: { chat_session_id },
 		fetchPolicy: "no-cache"
 	});
-    console.log("messageData:", messageData);
-	const previousMessages = messageData?.chat_sessions?.[0]?.message || [];
+    console.log("messageData:", messagesData);
+    const previousMessages = messagesData.chat_sessions.messages;
 
 	const formattedPreviousMessages: ChatCompletionMessageParam[] =
 	previousMessages.map((message) => ({
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
 
 	const openaiResponse = await openai.chat.completions.create({
 		messages: messages,
-		model: "gpt-4o",
+		model: "gpt-4.1",
 	});
 
 	const aiResponse = openaiResponse?.choices?.[0]?.message?.content?.trim();

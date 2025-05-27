@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";	
 
 import { Message } from "@/types/types";
@@ -13,7 +14,7 @@ function Messages({
 	chatbotName,
 } : {
 	messages: Message[];
-	chatbotName: string;
+	chatbotName?: string;
 }) {
     
 	const ref = useRef<HTMLDivElement>(null);
@@ -47,7 +48,7 @@ function Messages({
 					"-mr-4"}`}>
 					{isSender ? (
 						<Avatar
-						  seed={chatbotName}
+						  seed={chatbotName ?? "Chatbot"}
 						  className="h-12 w-12 bg-white rounded-full border-2 border-[#2991EE]"
 						  />
 					) : (
@@ -61,9 +62,8 @@ function Messages({
 			  : "chat-bubble-secondary bg-gray-800 text-gray-200" 
 			}`}
 			>
-			<div className={`break-words`}>
 			   <ReactMarkdown
-			    remarkPlugins={[remarkGfm]}
+				remarkPlugins={[remarkGfm]}
 				components={{
 					ul: ({ node, ...props }) => (
 					  <ul
@@ -98,7 +98,7 @@ function Messages({
 					p: ({ node, ...props }) => (
 					  <p
 						{...props}
-						className={` whitespace-break-spaces mb-5 ${
+						className={`break-words whitespace-break-spaces mb-5 ${
 						  message.content === "Thinking..." && "animate-pulse"
 						}${isSender ? "text-white" : "text-gray-800"}`}
 					  />
@@ -115,7 +115,6 @@ function Messages({
 				>
 				{message.content}
 				</ReactMarkdown>
-				</div>
 			 </p>
 		</div>
 	  );
@@ -125,4 +124,4 @@ function Messages({
   );
 }
 
-export default Messages
+export default Messages;
