@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
 
 	const openaiResponse = await openai.chat.completions.create({
 		messages: messages,
-		model: "gpt-4.1",
+		model: "gpt-3.5-turbo", 
 	});
 
 	const aiResponse = openaiResponse?.choices?.[0]?.message?.content?.trim();
