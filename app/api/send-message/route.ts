@@ -3,12 +3,17 @@ import { GET_CHATBOT_BY_ID, GET_MESSAGES_BY_CHAT_SESSION_ID } from "@/graphql/qu
 import { serverClient } from "@/lib/server/serverClient";
 import { GetChatbotByIdResponse, MessagesByChatSessionIdResponse } from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs"
+// import OpenAI from "openai";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import {GoogleGenAI} from '@google/genai';
 
-const openai =new OpenAI ({
-	apiKey: process.env.OPENAI_API_KEY,
+// const openai =new OpenAI ({
+// 	apiKey: process.env.OPENAI_API_KEY,
+// });
+const ai = new GoogleGenAI({
+	apiKey: process.env.GEMINI_API_KEY,
 });
+
 export async function POST(req: NextRequest) {
 
 	const { chat_session_id, chatbot_id, content, name } = await req.json();
